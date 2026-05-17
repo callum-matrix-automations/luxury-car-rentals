@@ -31,9 +31,9 @@ export default function Home() {
       <header className="mq-px" style={{ paddingTop: 24, paddingBottom: 24, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 24 }}>
         {/* Desktop nav links */}
         <nav className="mq-nav-links" style={{ display: "flex", gap: 36 }}>
-          <a className="mq-link mq-label" href="#">The Garage</a>
-          <a className="mq-link mq-label" href="#">Collections</a>
-          <a className="mq-link mq-label" href="#">Membership</a>
+          <span className="mq-link mq-label">The Garage</span>
+          <span className="mq-link mq-label">Collections</span>
+          <span className="mq-link mq-label">Membership</span>
         </nav>
         {/* Mobile hamburger */}
         <button className="mq-hamburger" aria-label="menu" style={{ display: "none", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: "var(--ink)", padding: 0 }}>
@@ -50,11 +50,11 @@ export default function Home() {
 
         {/* Desktop right nav */}
         <div style={{ display: "flex", justifyContent: "flex-end", gap: 28, alignItems: "center" }}>
-          <a className="mq-link mq-label mq-nav-right-links" href="#">List a motor</a>
-          <a className="mq-link mq-label mq-nav-right-links" href="#">EN &middot; GBP</a>
-          <a className="mq-link" href="#" aria-label="account" style={{ width: 34, height: 34, borderRadius: "50%", border: "1px solid rgba(14,14,12,0.33)", display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}>
+          <span className="mq-link mq-label mq-nav-right-links">List a motor</span>
+          <span className="mq-link mq-label mq-nav-right-links">EN &middot; GBP</span>
+          <span aria-label="account" style={{ width: 34, height: 34, borderRadius: "50%", border: "1px solid rgba(14,14,12,0.33)", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
             <span className="mq-display mq-italic" style={{ fontSize: 15 }}>m</span>
-          </a>
+          </span>
         </div>
       </header>
 
@@ -170,7 +170,7 @@ export default function Home() {
         <RowHead title="Browse by body" sub="Find your kind of motor" />
         <div className="mq-grid-6" style={{ marginTop: 28 }}>
           {categories.map((c, i) => (
-            <a key={c.id} href="#" className="mq-link mq-card block" style={{ textDecoration: "none" }}>
+            <div key={c.id} className="mq-card block" style={{ cursor: "default" }}>
               <div style={{ aspectRatio: "4/5", borderRadius: 4, overflow: "hidden", position: "relative" }} className="mq-card-img">
                 <CarPlaceholder tone={c.tone} label={c.label.toUpperCase()} sublabel={`№ 0${i + 1}`} footer={`${c.count} MOTORS`} />
               </div>
@@ -178,7 +178,7 @@ export default function Home() {
                 <span className="mq-display" style={{ fontSize: 22 }}>{c.label}</span>
                 <span className="mq-label" style={{ color: "var(--muted)" }}>{c.count}</span>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </section>
@@ -215,9 +215,9 @@ export default function Home() {
               Owners average £4,200 a month on a single vehicle.
             </p>
             <div style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="#" style={{ padding: "15px 26px", background: "var(--ink)", color: "var(--background)", borderRadius: 999, textDecoration: "none", fontSize: 13, letterSpacing: "0.04em", fontFamily: "var(--font-bodoni), 'Bodoni Moda', serif", fontStyle: "italic", fontWeight: 400 }}>
+              <span style={{ padding: "15px 26px", background: "var(--ink)", color: "var(--background)", borderRadius: 999, fontSize: 13, letterSpacing: "0.04em", fontFamily: "var(--font-bodoni), 'Bodoni Moda', serif", fontStyle: "italic", fontWeight: 400 }}>
                 List a motor
-              </a>
+              </span>
             </div>
           </div>
           <div className="mq-host-stats mq-host-stats-desktop" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }}>
@@ -250,9 +250,9 @@ export default function Home() {
           <div key={t as string}>
             <div className="mq-label" style={{ marginBottom: 14 }}>{t}</div>
             {(items as string[]).map((item) => (
-              <a key={item} className="mq-link" href="#" style={{ display: "block", fontSize: 13.5, marginBottom: 6, textDecoration: "none" }}>
+              <span key={item} className="mq-link" style={{ display: "block", fontSize: 13.5, marginBottom: 6 }}>
                 {item}
-              </a>
+              </span>
             ))}
           </div>
         ))}

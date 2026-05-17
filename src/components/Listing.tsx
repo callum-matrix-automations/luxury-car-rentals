@@ -28,8 +28,10 @@ export default function Listing({ car }: ListingProps) {
     setIdx((i) => (i === images.length - 1 ? 0 : i + 1));
   }, [images.length]);
 
-  return (
-    <Link href={`/vehicle/${car.id}`} className="mq-link mq-card block no-underline">
+  const hasPage = car.id === "296-challenge";
+
+  const content = (
+    <>
       <div
         style={{ aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", position: "relative" }}
         className="mq-card-img mq-carousel"
@@ -127,6 +129,20 @@ export default function Listing({ car }: ListingProps) {
           <span>({car.ratings.count})</span>
         </div>
       </div>
-    </Link>
+    </>
+  );
+
+  if (hasPage) {
+    return (
+      <Link href={`/vehicle/${car.id}`} className="mq-link mq-card block no-underline">
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div className="mq-card block" style={{ cursor: "default" }}>
+      {content}
+    </div>
   );
 }

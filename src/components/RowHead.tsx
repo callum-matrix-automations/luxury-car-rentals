@@ -30,9 +30,9 @@ export default function RowHead({ title, sub }: RowHeadProps) {
         </button>
       </div>
       {/* Mobile: "See all" link */}
-      <a href="#" className="mq-link mq-label mq-row-see-all" style={{ display: "none", alignItems: "center", gap: 4, flexShrink: 0, whiteSpace: "nowrap", textDecoration: "none" }}>
+      <span className="mq-link mq-label mq-row-see-all" style={{ display: "none", alignItems: "center", gap: 4, flexShrink: 0, whiteSpace: "nowrap" }}>
         SEE ALL
-      </a>
+      </span>
     </div>
   );
 }
