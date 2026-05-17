@@ -1,26 +1,387 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAFAF8;
+  --foreground: #0E0E0C;
+  --muted: #7B7B78;
+  --card: #FFFFFF;
+  --accent: #5A2A2A;
+  --ink: #0E0E0C;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Bodoni Moda', serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+/* Prevent horizontal overflow */
+.mq-root {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Responsive horizontal padding */
+.mq-px {
+  padding-left: clamp(16px, 4vw, 56px);
+  padding-right: clamp(16px, 4vw, 56px);
+}
+
+/* Display font */
+.mq-display {
+  font-family: var(--font-bodoni), 'Bodoni Moda', serif;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 0.98;
+}
+
+.mq-italic {
+  font-style: italic;
+}
+
+/* Label style */
+.mq-label {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Links */
+.mq-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.mq-link:hover {
+  color: var(--accent);
+}
+
+/* Horizontal rule */
+.mq-rule {
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.12;
+  width: 100%;
+}
+
+/* Search pill — desktop */
+.mq-pill {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(14, 14, 12, 0.15);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 5px;
+  box-shadow: 0 24px 60px -28px rgba(14, 14, 12, 0.18);
+}
+
+.mq-pill-seg {
+  flex: 1;
+  padding: 14px 26px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+.mq-pill-seg:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+.mq-pill-seg + .mq-pill-seg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 1px;
+  background: rgba(14, 14, 12, 0.1);
+}
+
+/* Mobile search bar */
+.mq-search-mobile {
+  display: none;
+}
+
+/* Tabs */
+.mq-tab {
+  padding: 14px 4px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+.mq-tab:hover {
+  color: var(--accent);
+}
+.mq-tab.active {
+  color: var(--ink);
+}
+.mq-tab.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--ink);
+}
+
+/* Car cards */
+.mq-card {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  display: block;
+}
+.mq-card:hover {
+  transform: translateY(-3px);
+}
+.mq-card-img {
+  transition: filter 0.35s ease, transform 0.6s ease;
+}
+.mq-card:hover .mq-card-img {
+  filter: brightness(1.04);
+}
+
+/* Heart / save button */
+.mq-heart {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #0E0E0C;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+.mq-card:hover .mq-heart {
+  opacity: 1;
+  transform: translateY(0);
+}
+.mq-heart:hover {
+  background: #fff;
+}
+
+/* Icon buttons (prev/next arrows) */
+.mq-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid rgba(14, 14, 12, 0.2);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.mq-icon-btn:hover {
+  background: var(--ink);
+  color: var(--background);
+}
+
+/* Responsive grids */
+.mq-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.mq-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+/* Image carousel — arrows */
+.mq-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #0E0E0C;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+.mq-carousel-arrow:hover {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.mq-carousel-arrow-left {
+  left: 10px;
+}
+.mq-carousel-arrow-right {
+  right: 10px;
+}
+.mq-carousel:hover .mq-carousel-arrow {
+  opacity: 1;
+}
+
+/* Image carousel — dots */
+.mq-carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+}
+.mq-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.mq-dot.active {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+/* Guarantee section — mobile only */
+.mq-guarantee-section {
+  display: none;
+}
+
+/* ── MOBILE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hide top stripe */
+  .mq-top-stripe {
+    display: none !important;
+  }
+
+  /* Nav: simplified — hamburger + wordmark + account */
+  .mq-nav-links {
+    display: none !important;
+  }
+  .mq-nav-right-links {
+    display: none !important;
+  }
+  .mq-hamburger {
+    display: flex !important;
+  }
+
+  /* Hide desktop search pill, show mobile search */
+  .mq-pill {
+    display: none !important;
+  }
+  .mq-search-mobile {
+    display: flex !important;
+  }
+
+  /* Tabs: scroll horizontally, left-aligned */
+  .mq-tabs-wrap {
+    justify-content: flex-start !important;
+    gap: 24px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .mq-tabs-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Car grids: 1 column */
+  .mq-grid-4 {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* Category grid: 2 columns */
+  .mq-grid-6 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  /* Row head: hide arrows on mobile */
+  .mq-row-arrows {
+    display: none !important;
+  }
+  .mq-row-see-all {
+    display: flex !important;
+  }
+  .mq-row-title {
+    font-size: 24px !important;
+  }
+
+  /* Host CTA: single column */
+  .mq-host-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .mq-host-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .mq-host-heading {
+    font-size: 32px !important;
+  }
+
+  /* Show guarantee section on mobile */
+  .mq-guarantee-section {
+    display: block !important;
+  }
+
+  /* Hide desktop stats in host CTA on mobile */
+  .mq-host-stats-desktop {
+    display: none !important;
+  }
+
+  /* Footer: stack to 1 column */
+  .mq-footer {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Heart + carousel arrows always visible on mobile (no hover) */
+  .mq-heart {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mq-carousel-arrow {
+    opacity: 1;
+  }
+}
+
+/* Tablet tweaks */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mq-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mq-grid-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
