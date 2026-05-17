@@ -8,26 +8,6 @@ if (typeof window !== "undefined") {
   import("@google/model-viewer");
 }
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "model-viewer": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement> & {
-          src?: string;
-          "auto-rotate"?: boolean;
-          "camera-controls"?: boolean;
-          "shadow-intensity"?: string;
-          "environment-image"?: string;
-          exposure?: string;
-          "camera-orbit"?: string;
-          ar?: boolean;
-        },
-        HTMLElement
-      >;
-    }
-  }
-}
-
 /* ─── design tokens ─── */
 const INK = "#0E0E0C";
 const MUTED = "#7B7B78";
