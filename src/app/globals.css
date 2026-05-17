@@ -272,6 +272,16 @@ a {
   transform: scale(1.2);
 }
 
+/* Vehicle page — two-column body */
+.mq-vehicle-body {
+  grid-template-columns: 1fr 420px;
+}
+
+/* Vehicle page subnav */
+.mq-vehicle-subnav {
+  display: flex;
+}
+
 /* Guarantee section — mobile only */
 .mq-guarantee-section {
   display: none;
@@ -364,6 +374,78 @@ a {
   .mq-footer {
     grid-template-columns: 1fr !important;
     gap: 32px !important;
+  }
+
+  /* Vehicle page: single column on mobile */
+  .mq-vehicle-body {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    padding-bottom: 80px !important;
+  }
+  .mq-vehicle-subnav {
+    display: none !important;
+  }
+  .mq-v-breadcrumb {
+    display: none !important;
+  }
+
+  /* Vehicle media: full-width viewer + horizontal thumbs below */
+  .mq-v-media-grid {
+    grid-template-columns: 1fr !important;
+    height: 340px !important;
+    border-radius: 12px !important;
+  }
+  .mq-v-media-thumbs {
+    display: none !important;
+  }
+  .mq-v-media-mobile-strip {
+    display: flex !important;
+  }
+  .mq-v-viewer-panel {
+    border-radius: 12px !important;
+  }
+  .mq-v-media-mobile-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Vehicle spec bar: 2+3 wrap */
+  .mq-v-spec-bar {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* All 2-column grids → single column */
+  .mq-v-2col {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  /* Location grid: stack */
+  .mq-v-location-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Similar cars: 2-up */
+  .mq-v-similar-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* Browse more: stack */
+  .mq-v-browse-more {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+    padding: 24px !important;
+  }
+
+  /* Hide desktop booking widget, show mobile bar */
+  .mq-v-booking-desktop {
+    display: none !important;
+  }
+  .mq-v-booking-mobile {
+    display: flex !important;
   }
 
   /* Heart + carousel arrows always visible on mobile (no hover) */
