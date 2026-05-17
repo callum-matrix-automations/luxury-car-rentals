@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 
 // Dynamically import model-viewer to register the web component
@@ -113,6 +113,9 @@ const showroomStyle = `
     0%, 100% { opacity: 0.4; }
     50% { opacity: 0.7; }
   }
+  @keyframes showroom-spin {
+    to { transform: rotate(360deg); }
+  }
 `;
 
 /* ─── props ─── */
@@ -158,6 +161,32 @@ export default function VehicleMedia({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
+
+  /* 3D model loading state */
+  const [modelProgress, setModelProgress] = useState(0);
+  const [modelLoaded, setModelLoaded] = useState(false);
+  const viewerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = viewerRef.current;
+    if (!el) return;
+    const onProgress = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && typeof detail.totalProgress === "number") {
+        setModelProgress(Math.round(detail.totalProgress * 100));
+      }
+    };
+    const onLoad = () => {
+      setModelProgress(100);
+      setModelLoaded(true);
+    };
+    el.addEventListener("progress", onProgress);
+    el.addEventListener("load", onLoad);
+    return () => {
+      el.removeEventListener("progress", onProgress);
+      el.removeEventListener("load", onLoad);
+    };
+  }, []);
 
   /* thumbnail click */
   const openPhoto = (idx: number) => {
@@ -234,6 +263,7 @@ export default function VehicleMedia({
 
               {/* Model viewer */}
               <model-viewer
+                ref={viewerRef as React.RefObject<never>}
                 src={modelUrl}
                 auto-rotate
                 camera-controls
@@ -246,8 +276,74 @@ export default function VehicleMedia({
                   position: "relative",
                   zIndex: 2,
                   background: "transparent",
+                  opacity: modelLoaded ? 1 : 0,
+                  transition: "opacity 0.6s ease",
                 }}
               />
+
+              {/* Loading overlay */}
+              {!modelLoaded && (
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 20,
+                  pointerEvents: "none",
+                }}>
+                  {/* Circular progress ring */}
+                  <div style={{ position: "relative", width: 56, height: 56 }}>
+                    {/* Track */}
+                    <svg width="56" height="56" viewBox="0 0 56 56" style={{ position: "absolute", inset: 0 }}>
+                      <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(213,207,190,0.12)" strokeWidth="2" />
+                    </svg>
+                    {/* Progress arc */}
+                    <svg width="56" height="56" viewBox="0 0 56 56" style={{
+                      position: "absolute", inset: 0,
+                      transform: "rotate(-90deg)",
+                    }}>
+                      <circle
+                        cx="28" cy="28" r="24"
+                        fill="none"
+                        stroke="#C9A96E"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 24}`}
+                        strokeDashoffset={`${2 * Math.PI * 24 * (1 - modelProgress / 100)}`}
+                        style={{ transition: "stroke-dashoffset 0.3s ease" }}
+                      />
+                    </svg>
+                    {/* 3D icon center */}
+                    <div style={{
+                      position: "absolute", inset: 0,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D5CFBE" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{
+                        animation: modelProgress < 100 ? "showroom-spin 3s linear infinite" : "none",
+                      }}>
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                      </svg>
+                    </div>
+                  </div>
+                  {/* Label */}
+                  <span style={{
+                    fontFamily: FONT_SANS,
+                    fontSize: 10.5,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: "rgba(213,207,190,0.5)",
+                    fontWeight: 500,
+                    fontVariantNumeric: "tabular-nums",
+                  }}>
+                    Loading 3D Model &middot; {modelProgress}%
+                  </span>
+                </div>
+              )}
 
               {/* Badge top-left — dark showroom style */}
               <div style={{ position: "absolute", top: 20, left: 20, zIndex: 3 }}>
